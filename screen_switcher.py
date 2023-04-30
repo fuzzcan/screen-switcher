@@ -1,4 +1,4 @@
-print("switching screens")
+print('switching screens')
 
 import sys
 import RPi.GPIO as GPIO
@@ -36,7 +36,7 @@ if len(sys.argv)==0:
     switch_all()
 
 elif len(sys.argv) == 1:
-    elif sys.argv[0] == "mac":
+    elif sys.argv[0] == 'mac':
         if not usb_check_mac:
             GPIO.output(usb_switch,True)
         if not dp_left_check_mac:
@@ -44,7 +44,7 @@ elif len(sys.argv) == 1:
         if not dp_right_check_mac:
             GPIO.output(dp_right_switch,True)
             
-    elif sys.argv[0] == "desktop":
+    elif sys.argv[0] == 'desktop':
         if not usb_check_desktop:
             GPIO.output(usb_switch,True)
         if not dp_left_check_desktop:
@@ -53,43 +53,43 @@ elif len(sys.argv) == 1:
             GPIO.output(dp_right_switch,True)
 
 elif len(sys.argv) == 2:
-    if sys.argv[0] == "usb":
-        if sys.argv[1] == "mac":
+    if sys.argv[0] == 'usb':
+        if sys.argv[1] == 'mac':
             if not usb_check_mac:
             GPIO.output(usb_switch,True)
-        elif sys.argv[1] == "desktop":
+        elif sys.argv[1] == 'desktop':
             if not usb_check_desktop:
             GPIO.output(usb_switch,True)
         else:
             command_not_recognized()
 
-    elif sys.argv[0] == "left":
-        if sys.argv[1] == "mac":
+    elif sys.argv[0] == 'left':
+        if sys.argv[1] == 'mac':
             if not dp_left_check_mac:
                 GPIO.output(dp_left_switch,True)
-        elif sys.argv[1] == "desktop":
+        elif sys.argv[1] == 'desktop':
             if not dp_left_check_desktop:
                 GPIO.output(dp_right_switch,True)
         else:
             command_not_recognized()
 
-    elif sys.argv[0] == "right":
-        if sys.argv[1] == "mac":
+    elif sys.argv[0] == 'right':
+        if sys.argv[1] == 'mac':
             if not dp_right_check_mac:
                 GPIO.output(dp_left_switch,True)
-        elif sys.argv[1] == "desktop":
+        elif sys.argv[1] == 'desktop':
             if not dp_right_check_desktop:
                 GPIO.output(dp_right_switch,True)
         else:
             command_not_recognized()
 
-    elif sys.argv[0] == "mac" and sys.argv[1] == "desktop":
+    elif sys.argv[0] == 'mac' and sys.argv[1] == 'desktop':
         if not dp_left_check_mac:
             GPIO.output(dp_left_switch,True)
         if not dp_right_check_desktop:
                 GPIO.output(dp_right_switch,True)
     
-    elif sys.argv[0] == "desktop" and sys.argv[1] == "mac":
+    elif sys.argv[0] == 'desktop' and sys.argv[1] == 'mac':
         if not dp_right_check_mac:
                 GPIO.output(dp_left_switch,True)
         if not dp_left_check_desktop:
@@ -99,22 +99,22 @@ time.sleep(.1)
 reset_pins()
 
 if GPIO.input(usb_check_desktop):
-        print("usb is connected to desktop")
+        print('usb is connected to desktop')
 
 if GPIO.input(usb_check_mac):
-        print("usb is connected to mac")
+        print('usb is connected to mac')
 
 if GPIO.input(dp_left_check_desktop):
-        print("dp_left is connected to desktop")
+        print('dp_left is connected to desktop')
 
 if GPIO.input(dp_left_check_mac):
-        print("dp_left is connected to mac")
+        print('dp_left is connected to mac')
 
 if GPIO.input(dp_right_check_desktop):
-        print("dp_right is connected to desktop")
+        print('dp_right is connected to desktop')
 
 if GPIO.input(dp_right_check_mac):
-        print("dp_right is connected to mac")
+        print('dp_right is connected to mac')
 
 def switch_all():
     GPIO.output(usb_switch,True)
@@ -129,4 +129,4 @@ def reset_pins():
     time.sleep(.5)
 
 def command_not_recognized():
-    print("Screen Switcher: Command not recognized.")
+    print('Screen Switcher: Command not recognized.')
