@@ -39,6 +39,7 @@ class Switch:
 
     def switch(self):
         GPIO.output(self.switching_pin,True)
+        # GPIO readout seems to not work unless this delay is added
         time.sleep(0.1)
         self.reset()
     
@@ -66,20 +67,14 @@ class Switches:
     def __init__(self, **kwargs):
         self.__dict__.update(kwargs)
         self.switches = [self.usb,self.left,self.right]
-        print(self.switches)
 
     def switch_all(self):
         for switch in self.switches:
-            switch.switch()
-    
-    def reset_all(self):
-        for switch in self.switches:
-            switch.reset()
+            switch.switch()   
 
     def set_mac(self):
-        self.usb.set_mac()
-        self.left.set_mac()
-        self.right.set_mac()
+        for switch in self.switches:
+            switch.set_mac()
     
     def set_desktop(self):
         for switch in self.switches:
@@ -101,10 +96,7 @@ def command_not_recognized():
 if len(sys.argv)==1: switches.switch_all()
 
 elif len(sys.argv) == 2:
-    if sys.argv[1] == 'mac': 
-        usb.set_mac()
-        left.set_mac()
-        right.set_mac()
+    if sys.argv[1] == 'mac': switches.set_mac()
     elif sys.argv[1] == 'desktop': switches.set_desktop() 
     else: command_not_recognized()
 
@@ -122,37 +114,6 @@ elif len(sys.argv) == 3:
     elif sys.argv[1] == 'right':
         if sys.argv[2] == 'mac': switches.right.set_mac()
         elif sys.argv[2] == 'desktop': switches.right.set_desktop()
-        else: command_not_recognized()
-
-    elif sys.argv[1] == 'mac' and sys.argv[2] == 'desktop':
-        switches.left.set_mac()
-        switches.right.set_desktop()
-    
-    elif sys.argv[1] == 'desktop' and sys.argv[2] == 'mac':
-        switches.left.set_desktop()
-        switches.right.set_mac()
-    
+        else: command_not_recognized() 
     else: command_not_recognized()
 else: command_not_recognized()
-
-time.sleep(.1)
-switches.reset_all()
-time.sleep(.5)
-
-if GPIO.input(usb_check_desktop):
-        print('usb is connected to desktop')
-
-if GPIO.input(usb_check_mac):
-        print('usb is connected to mac')
-
-if GPIO.input(left_check_desktop):
-        print('dp_left is connected to desktop')
-
-if GPIO.input(left_check_mac):
-        print('dp_left is connected to mac')
-
-if GPIO.input(right_check_desktop):
-        print('dp_right is connected to desktop')
-
-if GPIO.input(right_check_mac):
-        print('dp_right is connected to mac')
